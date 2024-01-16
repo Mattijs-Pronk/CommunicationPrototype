@@ -1,0 +1,41 @@
+unit iPaaS1.Testable;
+
+interface
+
+uses
+  //systems
+  System.JSON, System.Net.HttpClient, System.Net.HttpClientComponent,
+  //units
+  iPaaS1.InterfaceCollection, ErrorHandler;
+
+type
+  TestableController = class(TInterfacedObject, IMyTestable)
+  private
+    HttpClient: TNetHTTPClient;
+    IErrorHandler: IMyErrorHandler;
+    Local_AccesToken: String;
+  public
+    constructor Create(ACCES_TOKEN: string);
+    destructor Destroy; override;
+
+    function GetAllTestables: TJSONValue;
+  end;
+
+
+implementation
+
+
+constructor TestableController.Create(ACCES_TOKEN: string);
+begin
+  Local_AccesToken := ACCES_TOKEN;
+  IErrorHandler := ErrorHandlerClass.Create;
+end;
+
+destructor TestableController.Destroy;
+begin
+  IErrorHandler := nil;
+  inherited;
+end;
+
+
+end.

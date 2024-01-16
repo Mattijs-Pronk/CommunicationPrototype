@@ -1,0 +1,57 @@
+unit Api2Cart.Testable;
+
+interface
+
+uses
+  //components
+  System.JSON, System.Net.HttpClient, System.Net.HttpClientComponent,
+  //units
+  Api2Cart.InterfaceCollection, ConfigurationManager, ErrorHandler;
+
+type
+  TestableController = class(TInterfacedObject, Api2Cart.IMyTestable)
+  private
+    HttpClient: TNetHTTPClient;
+    IErrorHandler: IMyErrorHandler;
+    Local_AccesToken: String;
+  public
+    constructor Create(ACCES_TOKEN: string);
+    destructor Destroy; override;
+
+    function GetAllTestables: TJSONValue;
+  end;
+
+
+implementation
+
+
+constructor TestableController.Create(ACCES_TOKEN: string);
+begin
+  Local_AccesToken := ACCES_TOKEN;
+  IErrorHandler := ErrorHandlerClass.Create;
+end;
+
+destructor TestableController.Destroy;
+begin
+  IErrorHandler := nil;
+  inherited;
+end;
+
+
+function TestableController.GetAllTestables: TJSONValue;
+var
+  ResponseContent: string;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    ResponseContent := HttpClient.Get(Testable_BaseURL + 'fact').ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+  finally
+    HttpClient.Free;
+  end;
+end;
+
+
+end.

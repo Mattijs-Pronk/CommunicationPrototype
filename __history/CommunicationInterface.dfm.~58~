@@ -1,0 +1,571 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 753
+  ClientWidth = 1118
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  TextHeight = 15
+  object Label1: TLabel
+    Left = 461
+    Top = 363
+    Width = 85
+    Height = 23
+    Caption = 'Categories'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -17
+    Font.Name = 'Segoe UI'
+    Font.Style = [fsBold, fsUnderline]
+    ParentFont = False
+  end
+  object Label2: TLabel
+    Left = 238
+    Top = 11
+    Width = 20
+    Height = 15
+    Caption = 'ID1:'
+  end
+  object SwitchPlatformLabel: TLabel
+    Left = 586
+    Top = 14
+    Width = 40
+    Height = 23
+    Caption = '0000'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -17
+    Font.Name = 'Segoe UI'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object CustomersLabel: TLabel
+    Left = 586
+    Top = 363
+    Width = 84
+    Height = 23
+    Caption = 'Customers'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -17
+    Font.Name = 'Segoe UI'
+    Font.Style = [fsBold, fsUnderline]
+    ParentFont = False
+  end
+  object OrdersLabel: TLabel
+    Left = 308
+    Top = 99
+    Width = 54
+    Height = 23
+    Caption = 'Orders'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -17
+    Font.Name = 'Segoe UI'
+    Font.Style = [fsBold, fsUnderline]
+    ParentFont = False
+  end
+  object Label3: TLabel
+    Left = 238
+    Top = 40
+    Width = 20
+    Height = 15
+    Caption = 'ID2:'
+  end
+  object LocationsLabel: TLabel
+    Left = 516
+    Top = 99
+    Width = 75
+    Height = 23
+    Caption = 'Locations'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -17
+    Font.Name = 'Segoe UI'
+    Font.Style = [fsBold, fsUnderline]
+    ParentFont = False
+  end
+  object ProductsLabel: TLabel
+    Left = 36
+    Top = 99
+    Width = 70
+    Height = 23
+    Caption = 'Products'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -17
+    Font.Name = 'Segoe UI'
+    Font.Style = [fsBold, fsUnderline]
+    ParentFont = False
+  end
+  object TestCall: TButton
+    Left = 56
+    Top = 704
+    Width = 75
+    Height = 25
+    Caption = 'TestCall'
+    TabOrder = 0
+    OnClick = TestCallClick
+  end
+  object Memo1: TMemo
+    Left = 704
+    Top = 8
+    Width = 406
+    Height = 737
+    Lines.Strings = (
+      'Memo1')
+    ScrollBars = ssVertical
+    TabOrder = 1
+  end
+  object GetAll: TButton
+    Left = 465
+    Top = 392
+    Width = 75
+    Height = 25
+    Caption = 'GetAll'
+    TabOrder = 2
+    OnClick = GetAllClick
+  end
+  object GetSingle: TButton
+    Left = 465
+    Top = 423
+    Width = 75
+    Height = 25
+    Caption = 'GetSingle'
+    TabOrder = 3
+    OnClick = GetSingleClick
+  end
+  object CountAll: TButton
+    Left = 465
+    Top = 454
+    Width = 75
+    Height = 25
+    Caption = 'CountAll'
+    TabOrder = 4
+    OnClick = CountAllClick
+  end
+  object Post: TButton
+    Left = 465
+    Top = 485
+    Width = 75
+    Height = 25
+    Caption = 'Post'
+    TabOrder = 5
+    OnClick = PostClick
+  end
+  object Update: TButton
+    Left = 465
+    Top = 516
+    Width = 75
+    Height = 25
+    Caption = 'Update'
+    TabOrder = 6
+    OnClick = UpdateClick
+  end
+  object Delete: TButton
+    Left = 465
+    Top = 547
+    Width = 75
+    Height = 25
+    Caption = 'Delete'
+    TabOrder = 7
+    OnClick = DeleteClick
+  end
+  object ID1: TEdit
+    Left = 264
+    Top = 8
+    Width = 121
+    Height = 23
+    TabOrder = 8
+  end
+  object SwitchPlatform: TButton
+    Left = 586
+    Top = 43
+    Width = 98
+    Height = 38
+    Caption = 'Switch platform'
+    TabOrder = 9
+    OnClick = SwitchPlatformClick
+  end
+  object GetAllCustomers: TButton
+    Left = 586
+    Top = 392
+    Width = 75
+    Height = 25
+    Caption = 'GetAll'
+    TabOrder = 10
+    OnClick = GetAllCustomersClick
+  end
+  object GetSingleCustomer: TButton
+    Left = 586
+    Top = 423
+    Width = 75
+    Height = 25
+    Caption = 'GetSingle'
+    TabOrder = 11
+    OnClick = GetSingleCustomerClick
+  end
+  object PostCustomer: TButton
+    Left = 586
+    Top = 454
+    Width = 75
+    Height = 25
+    Caption = 'Post'
+    TabOrder = 12
+    OnClick = PostCustomerClick
+  end
+  object UpdateCustomer: TButton
+    Left = 586
+    Top = 485
+    Width = 75
+    Height = 25
+    Caption = 'Update'
+    TabOrder = 13
+    OnClick = UpdateCustomerClick
+  end
+  object DeleteCustomer: TButton
+    Left = 586
+    Top = 516
+    Width = 75
+    Height = 25
+    Caption = 'Delete'
+    TabOrder = 14
+    OnClick = DeleteCustomerClick
+  end
+  object GetAllOrders: TButton
+    Left = 259
+    Top = 128
+    Width = 153
+    Height = 25
+    Caption = 'GetAll'
+    TabOrder = 15
+    OnClick = GetAllOrdersClick
+  end
+  object GetSingleOrder: TButton
+    Left = 259
+    Top = 190
+    Width = 153
+    Height = 25
+    Caption = 'GetSingle'
+    TabOrder = 16
+    OnClick = GetSingleOrderClick
+  end
+  object CountAllOrders: TButton
+    Left = 259
+    Top = 159
+    Width = 153
+    Height = 25
+    Caption = 'CountAll'
+    TabOrder = 17
+    OnClick = CountAllOrdersClick
+  end
+  object UpdateOrder: TButton
+    Left = 259
+    Top = 221
+    Width = 153
+    Height = 25
+    Caption = 'Update'
+    TabOrder = 18
+    OnClick = UpdateOrderClick
+  end
+  object PostOrder: TButton
+    Left = 259
+    Top = 252
+    Width = 153
+    Height = 25
+    Caption = 'Post'
+    TabOrder = 19
+    OnClick = PostOrderClick
+  end
+  object DeleteOrder: TButton
+    Left = 259
+    Top = 283
+    Width = 153
+    Height = 25
+    Caption = 'Delete'
+    TabOrder = 20
+    OnClick = DeleteOrderClick
+  end
+  object PostOrderComplete: TButton
+    Left = 259
+    Top = 314
+    Width = 153
+    Height = 25
+    Caption = 'PostComplete'
+    TabOrder = 21
+    OnClick = PostOrderCompleteClick
+  end
+  object GetAllOrderFulfillments: TButton
+    Left = 259
+    Top = 345
+    Width = 153
+    Height = 25
+    Caption = 'GetAllFulfillments'
+    TabOrder = 22
+    OnClick = GetAllOrderFulfillmentsClick
+  end
+  object GetSingleOrderFulfillment: TButton
+    Left = 259
+    Top = 376
+    Width = 153
+    Height = 25
+    Caption = 'GetSingleFulfillment'
+    TabOrder = 23
+    OnClick = GetSingleOrderFulfillmentClick
+  end
+  object PostOrderFulfillment: TButton
+    Left = 259
+    Top = 407
+    Width = 153
+    Height = 25
+    Caption = 'PostFulfillment'
+    TabOrder = 24
+    OnClick = PostOrderFulfillmentClick
+  end
+  object UpdateOrderFulfillment: TButton
+    Left = 259
+    Top = 438
+    Width = 153
+    Height = 25
+    Caption = 'UpdateFulfillment'
+    TabOrder = 25
+    OnClick = UpdateOrderFulfillmentClick
+  end
+  object GetAllOrderFulfillmentLocations: TButton
+    Left = 259
+    Top = 469
+    Width = 153
+    Height = 25
+    Caption = 'GetAllFulfillmentLocations'
+    TabOrder = 26
+    OnClick = GetAllOrderFulfillmentLocationsClick
+  end
+  object GetAllOrderRisks: TButton
+    Left = 259
+    Top = 500
+    Width = 153
+    Height = 25
+    Caption = 'GetAllRisks'
+    TabOrder = 27
+    OnClick = GetAllOrderRisksClick
+  end
+  object GetSingleOrderRisk: TButton
+    Left = 259
+    Top = 531
+    Width = 153
+    Height = 25
+    Caption = 'GetSingleRisk'
+    TabOrder = 28
+    OnClick = GetSingleOrderRiskClick
+  end
+  object PostOrderRisk: TButton
+    Left = 259
+    Top = 562
+    Width = 153
+    Height = 25
+    Caption = 'PostRisk'
+    TabOrder = 29
+    OnClick = PostOrderRiskClick
+  end
+  object DeleteOrderRisk: TButton
+    Left = 259
+    Top = 593
+    Width = 153
+    Height = 25
+    Caption = 'DeleteRisk'
+    TabOrder = 30
+    OnClick = DeleteOrderRiskClick
+  end
+  object ID2: TEdit
+    Left = 264
+    Top = 37
+    Width = 121
+    Height = 23
+    TabOrder = 31
+  end
+  object GetAllLocations: TButton
+    Left = 476
+    Top = 128
+    Width = 157
+    Height = 25
+    Caption = 'GetAll'
+    TabOrder = 32
+    OnClick = GetAllLocationsClick
+  end
+  object CountAllLocations: TButton
+    Left = 476
+    Top = 159
+    Width = 157
+    Height = 25
+    Caption = 'CountAll'
+    TabOrder = 33
+    OnClick = CountAllLocationsClick
+  end
+  object GetSingleLocation: TButton
+    Left = 476
+    Top = 190
+    Width = 157
+    Height = 25
+    Caption = 'GetSingle'
+    TabOrder = 34
+    OnClick = GetSingleLocationClick
+  end
+  object GetAllInventoriesByLocation: TButton
+    Left = 476
+    Top = 221
+    Width = 157
+    Height = 25
+    Caption = 'GetAllInventoriesByLocation'
+    TabOrder = 35
+    OnClick = GetAllInventoriesByLocationClick
+  end
+  object GetAllLocationsByInventory: TButton
+    Left = 476
+    Top = 252
+    Width = 157
+    Height = 25
+    Caption = 'GetAllLocationsByInventory'
+    TabOrder = 36
+    OnClick = GetAllLocationsByInventoryClick
+  end
+  object GetSingleInventory: TButton
+    Left = 476
+    Top = 283
+    Width = 157
+    Height = 25
+    Caption = 'GetSingleInventory'
+    TabOrder = 37
+    OnClick = GetSingleInventoryClick
+  end
+  object UpdateInventory: TButton
+    Left = 476
+    Top = 314
+    Width = 157
+    Height = 25
+    Caption = 'UpdateInventory'
+    TabOrder = 38
+    OnClick = UpdateInventoryClick
+  end
+  object GetAllProducts: TButton
+    Left = 8
+    Top = 128
+    Width = 75
+    Height = 25
+    Caption = 'GetAll'
+    TabOrder = 39
+    OnClick = GetAllProductsClick
+  end
+  object CountAllProducts: TButton
+    Left = 8
+    Top = 159
+    Width = 75
+    Height = 25
+    Caption = 'CountAll'
+    TabOrder = 40
+    OnClick = CountAllProductsClick
+  end
+  object GetSingleProduct: TButton
+    Left = 8
+    Top = 190
+    Width = 75
+    Height = 25
+    Caption = 'GetSingle'
+    TabOrder = 41
+    OnClick = GetSingleProductClick
+  end
+  object UpdateProduct: TButton
+    Left = 8
+    Top = 221
+    Width = 75
+    Height = 25
+    Caption = 'Update'
+    TabOrder = 42
+    OnClick = UpdateProductClick
+  end
+  object PostProduct: TButton
+    Left = 8
+    Top = 252
+    Width = 75
+    Height = 25
+    Caption = 'Post'
+    TabOrder = 43
+    OnClick = PostProductClick
+  end
+  object DeleteProduct: TButton
+    Left = 8
+    Top = 283
+    Width = 75
+    Height = 25
+    Caption = 'Delete'
+    TabOrder = 44
+    OnClick = DeleteProductClick
+  end
+  object GetProductFeedback: TButton
+    Left = 8
+    Top = 314
+    Width = 75
+    Height = 25
+    Caption = 'GetFeedback'
+    TabOrder = 45
+    OnClick = GetProductFeedbackClick
+  end
+  object GetAllProductVariants: TButton
+    Left = 8
+    Top = 345
+    Width = 75
+    Height = 25
+    Caption = 'GetAllVariants'
+    TabOrder = 46
+    OnClick = GetAllProductVariantsClick
+  end
+  object CountAllProductVariants: TButton
+    Left = 8
+    Top = 376
+    Width = 75
+    Height = 25
+    Caption = 'CountAllVariants'
+    TabOrder = 47
+    OnClick = CountAllProductVariantsClick
+  end
+  object GetSingleProductVariant: TButton
+    Left = 8
+    Top = 407
+    Width = 75
+    Height = 25
+    Caption = 'GetSingleVariant'
+    TabOrder = 48
+    OnClick = GetSingleProductVariantClick
+  end
+  object PostProductVariant: TButton
+    Left = 8
+    Top = 438
+    Width = 75
+    Height = 25
+    Caption = 'PostVariant'
+    TabOrder = 49
+    OnClick = PostProductVariantClick
+  end
+  object UpdateProductVariant: TButton
+    Left = 8
+    Top = 469
+    Width = 75
+    Height = 25
+    Caption = 'UpdateVariant'
+    TabOrder = 50
+    OnClick = UpdateProductVariantClick
+  end
+  object DeleteProductVariant: TButton
+    Left = 8
+    Top = 500
+    Width = 75
+    Height = 25
+    Caption = 'DeleteVariant'
+    TabOrder = 51
+    OnClick = DeleteProductVariantClick
+  end
+end

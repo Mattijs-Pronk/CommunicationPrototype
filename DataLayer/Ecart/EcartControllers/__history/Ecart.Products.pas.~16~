@@ -1,0 +1,366 @@
+unit Ecart.Products;
+
+interface
+
+uses
+   //components
+  System.JSON, System.Net.HttpClient, System.Net.HttpClientComponent, System.Classes, System.SysUtils,
+  //units
+  Ecart.InterfaceCollection, ConfigurationManager, ErrorHandler;
+
+type
+
+  //Function aanmaken.
+  ProductsController = class(TInterfacedObject, IMyProducts)
+  private
+    HttpClient: TNetHTTPClient;
+    IErrorHandler: IMyErrorHandler;
+    Local_AccesToken: String;
+  public
+    constructor Create(ACCES_TOKEN: String);
+    destructor Destroy; override;
+
+
+    function GetAllProducts: TJSONValue;
+    function CountAllProducts: TJSONValue;
+    function GetSingleProduct(productId: UInt64): TJSONValue;
+    function UpdateProduct(productId: UInt64; UpdatedProductJSON: TJSONObject): TJSONValue;
+    function PostProduct(NewProductJSON: TJSONObject): TJSONValue;
+    function DeleteProduct(productId: UInt64): TJSONValue;
+
+    function GetProductFeedback(productId: UInt64): TJSONValue;
+
+    function GetAllProductVariants(productId: UInt64): TJSONValue;
+    function CountAllProductVariants(productId: UInt64): TJSONValue;
+    function GetSingleProductVariant(productId, variantId: UInt64): TJSONValue;
+    function PostProductVariant(productId: UInt64; NewProductVariantJSON: TJSONObject): TJSONValue;
+    function UpdateProductVariant(productId, variantId: UInt64; UpdatedProductVariantJSON: TJSONObject): TJSONValue;
+    function DeleteProductVariant(productId, variantId: UInt64): TJSONValue;
+
+    function GetAllProductsImages(productId: UInt64): TJSONValue;
+    function GetSingleProductImage(productId, imageId: UInt64): TJSONValue;
+    function PostImage(productId: UInt64): TJSONValue;
+    function DeleteImage(productId, imageId: UInt64): TJSONValue;
+  end;
+
+
+implementation
+
+constructor ProductsController.Create(ACCES_TOKEN: String);
+begin
+  Local_AccesToken := ACCES_TOKEN;
+  IErrorHandler := ErrorHandlerClass.Create;
+end;
+
+destructor ProductsController.Destroy;
+begin
+  IErrorHandler := nil;
+  inherited;
+end;
+
+
+
+function ProductsController.GetAllProducts: TJSONValue;
+var
+  ResponseContent: string;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    ResponseContent := HttpClient.Get(Ecart_BaseURL + 'products').ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+  end;
+end;
+
+function ProductsController.CountAllProducts: TJSONValue;
+var
+  ResponseContent: string;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    ResponseContent := HttpClient.Get(Ecart_BaseURL + 'products/count').ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+  end;
+end;
+
+function ProductsController.GetSingleProduct(productId: UInt64): TJSONValue;
+var
+  ResponseContent: string;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    ResponseContent := HttpClient.Get(Ecart_BaseURL + 'products/' + UIntToStr(productId)).ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+  end;
+end;
+
+function ProductsController.UpdateProduct(productId: UInt64; UpdatedProductJSON: TJSONObject): TJSONValue;
+var
+  ResponseContent: string;
+  RequestBody: TStringStream;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  RequestBody := TStringStream.Create(UpdatedProductJSON.ToJSON, TEncoding.UTF8);
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+    ResponseContent := HttpClient.Put(Ecart_BaseURL + 'products/' + UIntToStr(productId), RequestBody).ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+    RequestBody.Free;
+  end;
+end;
+
+function ProductsController.PostProduct(NewProductJSON: TJSONObject): TJSONValue;
+var
+  ResponseContent: string;
+  RequestBody: TStringStream;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  RequestBody := TStringStream.Create(NewProductJSON.ToJSON, TEncoding.UTF8);
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+    ResponseContent := HttpClient.Post(Ecart_BaseURL + 'products', RequestBody).ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+    RequestBody.Free;
+  end;
+end;
+
+function ProductsController.DeleteProduct(productId: UInt64): TJSONValue;
+var
+  ResponseContent: string;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+    ResponseContent := HttpClient.Delete(Ecart_BaseURL + 'products/' + UIntToStr(productId)).ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+  end;
+end;
+
+function ProductsController.GetProductFeedback(productId: UInt64): TJSONValue;
+var
+  ResponseContent: string;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+    ResponseContent := HttpClient.Get(Ecart_BaseURL + 'products/' + UIntToStr(productId) + '/feedback').ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+  end;
+end;
+
+function ProductsController.GetAllProductVariants(productId: UInt64): TJSONValue;
+var
+  ResponseContent: string;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+    ResponseContent := HttpClient.Get(Ecart_BaseURL + 'products/' + UIntToStr(productId) + '/variants').ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+  end;
+end;
+
+function ProductsController.CountAllProductVariants(productId: UInt64): TJSONValue;
+var
+  ResponseContent: string;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+    ResponseContent := HttpClient.Get(Ecart_BaseURL + 'products/' + UIntToStr(productId) + '/variants/count').ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+  end;
+end;
+
+function ProductsController.GetSingleProductVariant(productId, variantId: UInt64): TJSONValue;
+var
+  ResponseContent: string;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+    ResponseContent := HttpClient.Get(Ecart_BaseURL + 'products/' + UIntToStr(productId) + '/variants/' + UIntToStr(variantId)).ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+  end;
+end;
+
+function ProductsController.PostProductVariant(productId: UInt64; NewProductVariantJSON: TJSONObject): TJSONValue;
+var
+  ResponseContent: string;
+  RequestBody: TStringStream;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  RequestBody := TStringStream.Create(NewProductVariantJSON.ToJSON, TEncoding.UTF8);
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+    ResponseContent := HttpClient.Post(Ecart_BaseURL + 'products/' + UIntToStr(productId) + '/variants', RequestBody).ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+    RequestBody.Free;
+  end;
+end;
+
+function ProductsController.UpdateProductVariant(productId, variantId: UInt64; UpdatedProductVariantJSON: TJSONObject): TJSONValue;
+var
+  ResponseContent: string;
+  RequestBody: TStringStream;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  RequestBody := TStringStream.Create(UpdatedProductVariantJSON.ToJSON, TEncoding.UTF8);
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+    ResponseContent := HttpClient.Put(Ecart_BaseURL + 'products/' + UIntToStr(productId) + '/variants/' + UIntToStr(variantId), RequestBody).ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+    RequestBody.Free;
+  end;
+end;
+
+function ProductsController.DeleteProductVariant(productId, variantId: UInt64): TJSONValue;
+var
+  ResponseContent: string;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+    ResponseContent := HttpClient.Delete(Ecart_BaseURL + 'products/' + UIntToStr(productId) + '/variants/' + UIntToStr(variantId)).ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+  end;
+end;
+
+
+
+
+
+function ProductsController.GetAllProductsImages(productId: UInt64): TJSONValue;
+var
+  ResponseContent: string;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+    ResponseContent := HttpClient.Get(Ecart_BaseURL + 'products/' + UIntToStr(productId) + '/images').ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+  end;
+end;
+
+function ProductsController.GetSingleProductImage(productId, imageId: UInt64): TJSONValue;
+var
+  ResponseContent: string;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+    ResponseContent := HttpClient.Get(Ecart_BaseURL + 'products/' + UIntToStr(productId) + '/images/' + UIntToStr(imageId)).ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+  end;
+end;
+
+function ProductsController.PostImage(productId: UInt64): TJSONValue;
+var
+  ResponseContent: string;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+    ResponseContent := HttpClient.Post(Ecart_BaseURL + 'products/' + UIntToStr(productId) + '/images').ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+  end;
+end;
+
+function ProductsController.DeleteImage(productId, imageId: UInt64): TJSONValue;
+var
+  ResponseContent: string;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+    ResponseContent := HttpClient.Delete(Ecart_BaseURL + 'products/' + UIntToStr(productId) + '/variants/' + UIntToStr(imageId)).ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+  end;
+end;
+
+end.
+

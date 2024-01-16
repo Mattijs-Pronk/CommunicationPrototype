@@ -1,0 +1,300 @@
+object Form2: TForm2
+  Left = 0
+  Top = 0
+  Caption = 'Form2'
+  ClientHeight = 753
+  ClientWidth = 1118
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  TextHeight = 15
+  object Label1: TLabel
+    Left = 302
+    Top = 27
+    Width = 20
+    Height = 15
+    Caption = 'ID1:'
+  end
+  object Label2: TLabel
+    Left = 302
+    Top = 56
+    Width = 20
+    Height = 15
+    Caption = 'ID2:'
+  end
+  object Products: TLabel
+    Left = 41
+    Top = 84
+    Width = 87
+    Height = 30
+    Caption = 'Products'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -21
+    Font.Name = 'Segoe UI'
+    Font.Style = [fsBold, fsUnderline]
+    ParentFont = False
+  end
+  object switchPlatformlabel2: TLabel
+    Left = 584
+    Top = 17
+    Width = 36
+    Height = 21
+    Caption = '0000'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Segoe UI'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label3: TLabel
+    Left = 288
+    Top = 85
+    Width = 34
+    Height = 15
+    Caption = 'param'
+  end
+  object Label4: TLabel
+    Left = 8
+    Top = 10
+    Width = 133
+    Height = 45
+    Caption = 'Api2Cart'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -32
+    Font.Name = 'Segoe UI'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Memo1: TMemo
+    Left = 704
+    Top = 8
+    Width = 406
+    Height = 737
+    Lines.Strings = (
+      'Memo1')
+    ScrollBars = ssVertical
+    TabOrder = 0
+  end
+  object ID1: TEdit
+    Left = 328
+    Top = 24
+    Width = 121
+    Height = 23
+    TabOrder = 1
+  end
+  object ID2: TEdit
+    Left = 328
+    Top = 53
+    Width = 121
+    Height = 23
+    TabOrder = 2
+  end
+  object GetAll: TButton
+    Left = 32
+    Top = 120
+    Width = 105
+    Height = 25
+    Caption = 'GetAll'
+    TabOrder = 3
+    OnClick = GetAllClick
+  end
+  object SwitchPlatform: TButton
+    Left = 584
+    Top = 44
+    Width = 99
+    Height = 32
+    Caption = 'SwitchPlatform'
+    TabOrder = 4
+    OnClick = SwitchPlatformClick
+  end
+  object ProductsCountAll: TButton
+    Left = 32
+    Top = 151
+    Width = 105
+    Height = 25
+    Caption = 'CountAll'
+    TabOrder = 5
+    OnClick = ProductsCountAllClick
+  end
+  object ProductsGetSingle: TButton
+    Left = 32
+    Top = 182
+    Width = 105
+    Height = 25
+    Caption = 'GetSingle'
+    TabOrder = 6
+    OnClick = ProductsGetSingleClick
+  end
+  object param: TEdit
+    Left = 328
+    Top = 82
+    Width = 121
+    Height = 23
+    TabOrder = 7
+  end
+  object ProductAdd: TButton
+    Left = 32
+    Top = 244
+    Width = 105
+    Height = 25
+    Caption = 'Add'
+    TabOrder = 8
+    OnClick = ProductAddClick
+  end
+  object ProductUpdate: TButton
+    Left = 32
+    Top = 275
+    Width = 105
+    Height = 25
+    Caption = 'Update'
+    TabOrder = 9
+    OnClick = ProductUpdateClick
+  end
+  object ProductImageAdd: TButton
+    Left = 32
+    Top = 306
+    Width = 105
+    Height = 25
+    Caption = 'ImageAdd'
+    TabOrder = 10
+    OnClick = ProductImageAddClick
+  end
+  object Button2: TButton
+    Left = 560
+    Top = 696
+    Width = 138
+    Height = 49
+    Caption = 'Ecart'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -21
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 11
+    OnClick = Button2Click
+  end
+  object ProductsFind: TButton
+    Left = 32
+    Top = 213
+    Width = 105
+    Height = 25
+    Caption = 'Find'
+    TabOrder = 12
+    OnClick = ProductsFindClick
+  end
+  object ProductAttributeList: TButton
+    Left = 32
+    Top = 337
+    Width = 105
+    Height = 25
+    Caption = 'AttributeList'
+    TabOrder = 13
+    OnClick = ProductAttributeListClick
+  end
+  object ProductVariantAdd: TButton
+    Left = 32
+    Top = 368
+    Width = 105
+    Height = 25
+    Caption = 'VariantAdd'
+    TabOrder = 14
+    OnClick = ProductVariantAddClick
+  end
+  object ProductChildItemList: TButton
+    Left = 32
+    Top = 399
+    Width = 105
+    Height = 25
+    Caption = 'ChildItemList'
+    TabOrder = 15
+    OnClick = ProductChildItemListClick
+  end
+  object ProductVariantList: TButton
+    Left = 32
+    Top = 430
+    Width = 105
+    Height = 25
+    Caption = 'VariantList'
+    TabOrder = 16
+    OnClick = ProductVariantListClick
+  end
+  object ProductVariantInfo: TButton
+    Left = 32
+    Top = 461
+    Width = 105
+    Height = 25
+    Caption = 'VariantInfo'
+    TabOrder = 17
+    OnClick = ProductVariantInfoClick
+  end
+  object ProductVariantCount: TButton
+    Left = 32
+    Top = 492
+    Width = 105
+    Height = 25
+    Caption = 'VariantCount'
+    TabOrder = 18
+    OnClick = ProductVariantCountClick
+  end
+  object ProductVariantUpdate: TButton
+    Left = 32
+    Top = 523
+    Width = 105
+    Height = 25
+    Caption = 'VariantUpdate'
+    TabOrder = 19
+    OnClick = ProductVariantUpdateClick
+  end
+  object ProductCurrencyList: TButton
+    Left = 32
+    Top = 554
+    Width = 105
+    Height = 25
+    Caption = 'CurrencyList'
+    TabOrder = 20
+    OnClick = ProductCurrencyListClick
+  end
+  object ProductDelete: TButton
+    Left = 32
+    Top = 585
+    Width = 105
+    Height = 25
+    Caption = 'Delete'
+    TabOrder = 21
+    OnClick = ProductDeleteClick
+  end
+  object ProductImageDelete: TButton
+    Left = 32
+    Top = 616
+    Width = 105
+    Height = 25
+    Caption = 'ImageDelete'
+    TabOrder = 22
+    OnClick = ProductImageDeleteClick
+  end
+  object ProductAddOption: TButton
+    Left = 32
+    Top = 647
+    Width = 105
+    Height = 25
+    Caption = 'AddOption'
+    TabOrder = 23
+    OnClick = ProductAddOptionClick
+  end
+  object ProductVariantDelete: TButton
+    Left = 32
+    Top = 678
+    Width = 105
+    Height = 25
+    Caption = 'VariantDelete'
+    TabOrder = 24
+    OnClick = ProductVariantDeleteClick
+  end
+end

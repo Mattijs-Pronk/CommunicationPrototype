@@ -1,0 +1,272 @@
+unit Ecart.Orders;
+
+interface
+
+uses
+   //components
+  System.JSON, System.Net.HttpClient, System.Net.HttpClientComponent, System.Classes, System.SysUtils,
+  //units
+  Ecart.InterfaceCollection, ConfigurationManager, ErrorHandler;
+
+type
+
+  //Function aanmaken.
+  OrdersController = class(TInterfacedObject, IMyOrders)
+  private
+    HttpClient: TNetHTTPClient;
+    IErrorHandler: IMyErrorHandler;
+    Local_AccesToken: String;
+  public
+    constructor Create(ACCES_TOKEN: String);
+    destructor Destroy; override;
+
+    function GetAllOrders: TJSONValue;
+    function CountAllOrders: TJSONValue;
+    function GetSingleOrder(orderId: UInt64): TJSONValue;
+    function UpdateOrder(orderId: UInt64; UpdatedOrderJSON: TJSONObject): TJSONValue;
+    function PostOrder(NewOrderJSON: TJSONObject): TJSONValue;
+    function DeleteOrder(orderId: UInt64): TJSONValue;
+    function PostOrderComplete(orderId: UInt64): TJSONValue;
+    function GetAllOrderFulfillments(orderId: UInt64): TJSONValue;
+    function GetSingleOrderFulfillment(orderId: UInt64; fullfillmentId: String): TJSONValue;
+    function PostOrderFulfillment(orderId: UInt64; NewFullfillment: TJSONObject): TJSONValue;
+    function UpdateOrderFulfillment(orderId: UInt64; fullfillmentId: String): TJSONValue;
+    function GetAllOrderFulfillmentLocations(orderId: UInt64): TJSONValue;
+    function GetAllOrderRisks(orderId: UInt64): TJSONValue;
+    function GetSingleOrderRisk(orderId, riskId: UInt64): TJSONValue;
+    function PostOrderRisk(orderId: UInt64): TJSONValue;
+    function DeleteOrderRisk(orderId, riskId: UInt64): TJSONValue;
+  end;
+
+
+implementation
+
+constructor OrdersController.Create(ACCES_TOKEN: String);
+begin
+  Local_AccesToken := ACCES_TOKEN;
+  IErrorHandler := ErrorHandlerClass.Create;
+end;
+
+destructor OrdersController.Destroy;
+begin
+  IErrorHandler := nil;
+  inherited;
+end;
+
+
+
+function OrdersController.GetAllOrders: TJSONValue;
+var
+  ResponseContent: string;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    ResponseContent := HttpClient.Get(Ecart_BaseURL + 'orders').ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+  end;
+end;
+
+function OrdersController.CountAllOrders: TJSONValue;
+var
+  ResponseContent: string;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    ResponseContent := HttpClient.Get(Ecart_BaseURL + 'orders/count').ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+  end;
+end;
+
+function OrdersController.GetSingleOrder(orderId: UInt64): TJSONValue;
+var
+  ResponseContent: string;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    ResponseContent := HttpClient.Get(Ecart_BaseURL + 'orders/' + UIntToStr(orderId)).ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+  end;
+end;
+
+function OrdersController.UpdateOrder(orderId: UInt64; UpdatedOrderJSON: TJSONObject): TJSONValue;
+var
+  ResponseContent: string;
+  RequestBody: TStringStream;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  RequestBody := TStringStream.Create(UpdatedOrderJSON.ToJSON, TEncoding.UTF8);
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+    ResponseContent := HttpClient.Put(Ecart_BaseURL + 'orders/' + UIntToStr(orderId), RequestBody).ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+    RequestBody.Free;
+  end;
+end;
+
+function OrdersController.PostOrder(NewOrderJSON: TJSONObject): TJSONValue;
+var
+  ResponseContent: string;
+  RequestBody: TStringStream;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  RequestBody := TStringStream.Create(NewOrderJSON.ToJSON, TEncoding.UTF8);
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+    ResponseContent := HttpClient.Post(Ecart_BaseURL + 'orders', RequestBody).ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+    RequestBody.Free;
+  end;
+end;
+
+function OrdersController.DeleteOrder(orderId: UInt64): TJSONValue;
+var
+  ResponseContent: string;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+    ResponseContent := HttpClient.Delete(Ecart_BaseURL + 'orders/' + UIntToStr(orderId)).ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+  end;
+end;
+
+function OrdersController.PostOrderComplete(orderId: UInt64): TJSONValue;
+var
+  ResponseContent: string;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    ResponseContent := HttpClient.Get(Ecart_BaseURL + 'orders/' + UIntToStr(orderId) + '/complete').ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+  end;
+end;
+
+function OrdersController.GetAllOrderFulfillments(orderId: UInt64): TJSONValue;
+var
+  ResponseContent: string;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    ResponseContent := HttpClient.Get(Ecart_BaseURL + 'orders/' + UIntToStr(orderId) + '/fulfillments').ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+  end;
+end;
+
+function OrdersController.GetSingleOrderFulfillment(orderId: UInt64; fullfillmentId: String): TJSONValue;
+var
+  ResponseContent: string;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    ResponseContent := HttpClient.Get(Ecart_BaseURL + 'orders/' + UIntToStr(orderId) + '/fulfillments/' + fullfillmentId).ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+  end;
+end;
+
+function OrdersController.PostOrderFulfillment(orderId: UInt64; NewFullfillment: TJSONObject): TJSONValue;
+var
+  ResponseContent: string;
+  RequestBody: TStringStream;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  RequestBody := TStringStream.Create(NewFullfillment.ToJSON, TEncoding.UTF8);
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+    ResponseContent := HttpClient.Post(Ecart_BaseURL + 'orders/' + UIntToStr(orderId) + '/fulfillments', RequestBody).ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+    RequestBody.Free;
+  end;
+end;
+
+function OrdersController.UpdateOrderFulfillment(orderId: UInt64; fullfillmentId: String): TJSONValue;
+var
+  ResponseContent: string;
+  RequestBody: TStringStream;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  RequestBody := TStringStream.Create('');
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+    ResponseContent := HttpClient.Put(Ecart_BaseURL + 'orders/' + UIntToStr(orderId) + '/fulfillments/' + fullfillmentId + '/cancel', RequestBody).ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+    RequestBody.Free;
+  end;
+end;
+
+function OrdersController.GetAllOrderFulfillmentLocations(orderId: UInt64): TJSONValue;
+var
+  ResponseContent: string;
+  RequestBody: TStringStream;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  RequestBody := TStringStream.Create('');
+  try
+    HttpClient.CustomHeaders['Authorization'] := Local_AccesToken;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+    ResponseContent := HttpClient.Get(Ecart_BaseURL + 'orders/' + UIntToStr(orderId) + '/locations').ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+    RequestBody.Free;
+  end;
+end;
+
+end.
+

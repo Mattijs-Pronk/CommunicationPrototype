@@ -1,0 +1,17 @@
+unit iPaaS1.InterfaceCollection;
+
+interface
+
+uses
+  System.JSON, IdCustomHTTPServer;
+
+type
+  {$M+}
+  //category interface
+  IMyTestable = interface
+    function GetAllTestables: TJSONValue;
+  end;
+
+implementation
+
+end.

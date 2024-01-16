@@ -1,0 +1,114 @@
+unit Ecart.InterfaceCollection;
+
+interface
+
+uses
+  System.JSON, IdCustomHTTPServer;
+
+type
+  {$M+}
+  //category interface
+  IMyCategories = interface
+    function GetAllCategories: TJSONValue;
+    function CountAllCategories: TJSONValue;
+    function GetSingleCategory(categoryId: UInt64): TJSONValue;
+    function PostCategory(NewCategoryJSON: TJSONObject): TJSONValue;
+    function UpdateCategory(categoryid: UInt64; UpdatedCategoryJSON: TJSONObject): TJSONValue;
+    function DeleteCategory(categoryId: UInt64): TJSONValue;
+  end;
+
+  //customer interface
+  IMyCustomers = interface
+    function GetAllCustomers: TJSONValue;
+    function GetSingleCustomer(customerId: Integer): TJSONValue;
+    function PostCustomer(NewCustomerJSON: TJSONObject): TJSONValue;
+    function UpdateCustomer(customerId: Integer; UpdatedCustomerJSON: TJSONObject): TJSONValue;
+    function DeleteCustomer(customerId: Integer): TJSONValue;
+  end;
+
+  //order interface
+  IMyOrders = interface
+    function GetAllOrders: TJSONValue;
+    function CountAllOrders: TJSONValue;
+    function GetSingleOrder(orderId: Integer): TJSONValue;
+    function UpdateOrder(orderId: Integer; UpdatedOrderJSON: TJSONObject): TJSONValue;
+    function PostOrder(NewOrderJSON: TJSONObject): TJSONValue;
+    function DeleteOrder(orderId: Integer): TJSONValue;
+    function PostOrderComplete(orderId: Integer): TJSONValue;
+    function GetAllOrderFulfillments(orderId: Integer): TJSONValue;
+    function GetSingleOrderFulfillment(orderId: Integer; fullfillmentId: String): TJSONValue;
+    function PostOrderFulfillment(orderId: Integer; NewFullfillment: TJSONObject): TJSONValue;
+    function UpdateOrderFulfillment(orderId: Integer; fullfillmentId: String): TJSONValue;
+    function GetAllOrderFulfillmentLocations(orderId: Integer): TJSONValue;
+    function GetAllOrderRisks(orderId: Integer): TJSONValue;
+    function GetSingleOrderRisk(orderId, riskId: Integer): TJSONValue;
+    function PostOrderRisk(orderId: Integer): TJSONValue;
+    function DeleteOrderRisk(orderId, riskId: Integer): TJSONValue;
+  end;
+
+  //products interface
+  IMyProducts = interface
+    function GetAllProducts: TJSONValue;
+    function CountAllProducts: TJSONValue;
+    function GetSingleProduct(productId: UInt64): TJSONValue;
+    function UpdateProduct(productId: UInt64; UpdatedProductJSON: TJSONObject): TJSONValue;
+    function PostProduct(NewProductJSON: TJSONObject): TJSONValue;
+    function DeleteProduct(productId: UInt64): TJSONValue;
+
+    function GetProductFeedback(productId: UInt64): TJSONValue;
+
+    function GetAllProductVariants(productId: UInt64): TJSONValue;
+    function CountAllProductVariants(productId: UInt64): TJSONValue;
+    function GetSingleProductVariant(productId, variantId: UInt64): TJSONValue;
+    function PostProductVariant(productId: UInt64; NewProductVariantJSON: TJSONObject): TJSONValue;
+    function UpdateProductVariant(productId, variantId: UInt64; UpdatedProductVariantJSON: TJSONObject): TJSONValue;
+    function DeleteProductVariant(productId, variantId: UInt64): TJSONValue;
+
+    function GetAllProductsImages (productId: UInt64): TJSONValue;
+    function GetSingleProductImage (productId, imageId: UInt64): TJSONValue;
+    function PostImage (productId: UInt64): TJSONValue;
+    function DeleteImage (productId, imageId: UInt64): TJSONValue;
+//    function GetAllSalesChannelProducts (productId, variantId: UInt64): TJSONValue;
+//    function CountAllSalesChannelProducts (productId, variantId: UInt64): TJSONValue;
+//    function GetSingleSalesChannelProduct (productId, variantId: UInt64): TJSONValue;
+//    function PostProductToSalesChannel (productId, variantId: UInt64): TJSONValue;
+//    function DeleteProductFromSalesChannel (productId, variantId: UInt64): TJSONValue;
+//    function PostProductFeedBackCopy (productId, variantId: UInt64): TJSONValue;
+  end;
+
+  //Shipping interface
+  IMyShippings = interface
+    function GetAllShippings: TJSONValue;
+    function GetSingleShipping(shippingId: String): TJSONValue;
+
+    function GetAllShippingMethods(shippingzoneId: UInt64): TJSONValue;
+    function GetSingleShippingMethod(shippingzoneId, shippingmethodId: UInt64): TJSONValue;
+    function UpdateShippingMethod(shippingzoneId, shippingmethodId: UInt64; UpdatedShippingMethodJSON: TJSONObject): TJSONValue;
+    function PostShippingMethod(shippingzoneId: UInt64; NewShippingMethodJSON: TJSONObject): TJSONValue;
+    function DeleteShippingMethod(shippingzoneId, shippingmethodId: UInt64): TJSONValue;
+
+    function GetAllShippingMethodsFromShippingZone: TJSONValue;
+    function GetSingleShippingMethodFromShippingZone(shippingzoneId: UInt64): TJSONValue;
+    function UpdateShippingZone(shippingzoneId: UInt64; UpdatedShippingZoneJSON: TJSONObject): TJSONValue;
+    function PostShippingZone(NewShippingZoneJSON: TJSONObject): TJSONValue;
+    function DeleteShippingZone(shippingzoneId: UInt64): TJSONValue;
+
+    function GetAllShippingZoneLocations(shippingzoneId: UInt64): TJSONValue;
+    function UpdateShippingZoneLocation(shippingzoneId: UInt64; UpdatedShippingZoneLocationJSON: TJSONObject): TJSONValue;
+  end;
+
+  //Locations interface
+  IMyLcations = interface
+    function GetAllLocations: TJSONValue;
+    function CountAllLocations: TJSONValue;
+    function GetSingleLocation(locationId: UInt64): TJSONValue;
+    function GetAllInventoriesByLocation(locationId: UInt64): TJSONValue;
+    function GetAllLocationsByInventory(inventoryId: UInt64): TJSONValue;
+    function GetSingleInventory(locationId, inventoryId: UInt64): TJSONValue;
+    function UpdateInventory(productId: UInt64; UpdatedProductJSON: TJSONObject): TJSONValue;
+  end;
+
+
+implementation
+
+end.

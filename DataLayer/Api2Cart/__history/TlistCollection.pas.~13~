@@ -1,0 +1,62 @@
+unit TlistCollection;
+
+interface
+
+uses
+  System.Generics.Collections, System.Classes, System.SysUtils, IdURI;
+
+type
+  TInventoryItem = class
+    // Je kunt hier properties toevoegen voor de gegevens in "inventory" indien nodig
+  end;
+
+  TGroupItem = class
+    // Je kunt hier properties toevoegen voor de gegevens in "group_items" indien nodig
+  end;
+
+  TProduct = class
+  private
+    Tfind_value: string;
+    Tfind_where: string;
+    Tfind_param: string;
+    Tfind_what: string;
+  public
+    property find_value: string read Tfind_value write Tfind_value;
+    property find_where: string read Tfind_where write Tfind_where;
+    property find_param: string read Tfind_param write Tfind_param;
+    property find_what: string read Tfind_what write Tfind_what;
+    procedure ProductLoop();
+  end;
+
+implementation
+
+{ TProduct }
+
+procedure TProduct.ProductLoop();
+var Params: TStringList;
+begin
+ Params := TStringList.Create;
+
+  if find_value <> '' then
+  begin
+   Params.Add(TIdURI.ParamsEncode(find_value) + '=' +
+   TIdURI.ParamsEncode(find_value));
+  end;
+  if find_where = '' then
+  begin
+   //log(1)
+  end;
+  if find_param = '' then
+  begin
+   //log(1)
+  end;
+  if find_what = '' then
+  begin
+   //log(1)
+  end;
+end;
+
+
+end.
+
+

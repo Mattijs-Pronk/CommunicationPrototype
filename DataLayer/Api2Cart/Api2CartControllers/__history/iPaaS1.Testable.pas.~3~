@@ -1,0 +1,30 @@
+unit iPaaS1.Testable;
+
+interface
+
+uses
+  //systems
+  System.JSON, System.Net.HttpClient, System.Net.HttpClientComponent,
+  //units
+  ErrorHandler;
+
+type
+  TestableController = class(TInterfacedObject, IMyTestable)
+  private
+    HttpClient: TNetHTTPClient;
+    IErrorHandler: IMyErrorHandler;
+    __ACCES_TOKEN: String;
+  public
+    constructor Create(ACCES_TOKEN: string);
+    destructor Destroy; override;
+
+    function GetAllCategories: TJSONValue;
+    function GetSingleCategory(categoryId: Integer): TJSONValue;
+    function PostCategory(NewCategoryJSON: TJSONObject): TJSONValue;
+    function UpdateCategory(categoryid: Integer; UpdatedCategoryJSON: TJSONObject): TJSONValue;
+    function DeleteCategory(categoryId: Integer): TJSONValue;
+  end;
+
+implementation
+
+end.

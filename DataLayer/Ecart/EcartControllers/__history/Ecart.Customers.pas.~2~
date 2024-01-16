@@ -1,0 +1,134 @@
+unit Ecart.Customers;
+
+interface
+
+uses
+   //components
+  System.JSON, System.Net.HttpClient, System.Net.HttpClientComponent, System.Classes, System.SysUtils,
+  //units
+  Ecart.InterfaceCollection, ConfigurationManager, ErrorHandler;
+
+type
+
+  CustomersController = class(TInterfacedObject, IMyCustomers)
+  private
+    HttpClient: TNetHTTPClient;
+    IErrorHandler: IMyErrorHandler;
+    __ACCES_TOKEN: String;
+  public
+    constructor Create(ACCES_TOKEN: String);
+    destructor Destroy; override;
+
+    function GetAllCustomers: TJSONValue;
+    function GetSingleCustomer(customerId: Integer): TJSONValue;
+    function PostCustomer(NewCustomerJSON: TJSONObject): TJSONValue;
+    function UpdateCustomer(customerId: Integer; UpdatedCustomerJSON: TJSONObject): TJSONValue;
+    function DeleteCustomer(customerId: Integer): TJSONValue;
+  end;
+
+implementation
+
+constructor CustomersController.Create(ACCES_TOKEN: String);
+begin
+  __ACCES_TOKEN := ACCES_TOKEN;
+  IErrorHandler := ErrorHandlerClass.Create;
+end;
+
+destructor CustomersController.Destroy;
+begin
+  IErrorHandler := nil;
+  inherited;
+end;
+
+
+
+function CustomersController.GetAllCustomers: TJSONValue;
+var
+  ResponseContent: string;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  try
+    HttpClient.CustomHeaders['Authorization'] := __ACCES_TOKEN;
+    ResponseContent := HttpClient.Get(EcartApi_BaseURL + 'customers').ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+  end;
+end;
+
+function CustomersController.GetSingleCustomer(customerId: Integer): TJSONValue;
+var
+  ResponseContent: string;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  try
+    HttpClient.CustomHeaders['Authorization'] := __ACCES_TOKEN;
+    ResponseContent := HttpClient.Get(EcartApi_BaseURL + 'customers/' + IntToStr(customerId)).ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+  end;
+end;
+
+function CustomersController.PostCustomer(NewCustomerJSON: TJSONObject): TJSONValue;
+var
+  ResponseContent: string;
+  RequestBody: TStringStream;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  RequestBody := TStringStream.Create(NewCustomerJSON.ToJSON, TEncoding.UTF8);
+  try
+    HttpClient.CustomHeaders['Authorization'] := __ACCES_TOKEN;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+    ResponseContent := HttpClient.Post(EcartApi_BaseURL + 'customers', RequestBody).ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+    RequestBody.Free;
+  end;
+end;
+
+function CustomersController.UpdateCustomer(customerId: Integer; UpdatedCustomerJSON: TJSONObject): TJSONValue;
+var
+  ResponseContent: string;
+  RequestBody: TStringStream;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  RequestBody := TStringStream.Create(UpdatedCustomerJSON.ToJSON, TEncoding.UTF8);
+  try
+    HttpClient.CustomHeaders['Authorization'] := __ACCES_TOKEN;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+    ResponseContent := HttpClient.Put(EcartApi_BaseURL + 'customers/' + IntToStr(customerId), RequestBody).ContentAsString;
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+    RequestBody.Free;
+  end;
+end;
+
+function CustomersController.DeleteCustomer(customerId: Integer): TJSONValue;
+var
+  ResponseContent: string;
+begin
+  HttpClient := TNetHTTPClient.Create(nil);
+  try
+    HttpClient.CustomHeaders['Authorization'] := __ACCES_TOKEN;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+    ResponseContent := HttpClient.Delete(EcartApi_BaseURL + 'customers/' + IntToStr(customerId)).ContentAsString();
+
+    Result := IErrorHandler.ErrorHandleriPaaS(ResponseContent);
+
+  finally
+    HttpClient.Free;
+  end;
+end;
+
+end.
