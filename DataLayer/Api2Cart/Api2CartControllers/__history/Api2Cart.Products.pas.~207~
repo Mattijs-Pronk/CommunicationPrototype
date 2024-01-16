@@ -17,14 +17,14 @@ type
     IErrorHandler: IMyErrorHandler;
     Local_AccesToken: String;
   public
-    constructor Create(ACCES_TOKEN: String);
+    constructor Create(ACCES_TOKEN: String); //test
     destructor Destroy; override;
 
 
     function Products_list(param: String): TJSONValue;
     function Products_count: TJSONValue;
     function Product_info(productId: UInt64; param: String): TJSONValue;
-    function Product_find(CreateFindProductJson: TJSONObject): TJSONValue;
+    function Product_find(Product: TProduct): TJSONValue;
     function Product_add(NewProductJson: TJSONObject): TJSONValue;
     function Product_update(productId: UInt64; UpdateProductJson: TJSONObject): TJSONValue;
     function product_image_add(productId: UInt64; CreateNewProductImageJson: TJSONObject): TJSONValue;
@@ -156,37 +156,26 @@ begin
   end;
 end;
 
-function ProductsController.Product_find(CreateFindProductJson: TJSONObject): TJSONValue;
+function ProductsController.Product_find(Product: TProduct): TJSONValue;
 var
   ResponseContent: string;
   Params: TStringList;
   URL: string;
   Pair: TJSONPair;
-  Product: TProduct;
 begin
-  Product := TProduct.Create;
-  Product.find_value := '123';
-  Product.find_where := '';
-  Product.find_param := 'whole_words';
-  Product.find_what := 'product';
-  // 20 more variables
-
-  Params.Add(Product.ProductLoop());
-
-
-
-
   HttpClient := TNetHTTPClient.Create(nil);
   Params := TStringList.Create;
   try
     Params.Add('api_key=' + TIdURI.ParamsEncode(Api2Cart_ApiKey));
     Params.Add('store_key=' + TIdURI.ParamsEncode(Local_AccesToken));
+    //parameters toevoegen uit via een function in de TListCollection unit.
+    Params.Add(Product.ProductLoop());
 
-    for Pair in CreateFindProductJson do
-      begin
-        Params.Add(TIdURI.ParamsEncode(Pair.JsonString.Value) + '=' +
-        TIdURI.ParamsEncode(Pair.JsonValue.Value));
-      end;
+//    for Pair in CreateFindProductJson do
+//      begin
+//        Params.Add(TIdURI.ParamsEncode(Pair.JsonString.Value) + '=' +
+//        TIdURI.ParamsEncode(Pair.JsonValue.Value));
+//      end;
 
     URL := Api2Cart_BaseURL + 'product.find.json?' + StringReplace(Params.Text, #$D#$A, '&', [rfReplaceAll]);
     URL := TIdURI.URLEncode(URL);
@@ -243,7 +232,7 @@ begin
   HttpClient := TNetHTTPClient.Create(nil);
   Params := TStringList.Create;
   try
-    Params.Add('api_key=' + TIdURI.ParamsEncode(Api2Cart_ApiKey));      //Tlist
+    Params.Add('api_key=' + TIdURI.ParamsEncode(Api2Cart_ApiKey));
     Params.Add('store_key=' + TIdURI.ParamsEncode(Local_AccesToken));
     Params.Add('id=' + UIntToStr(productId));
 

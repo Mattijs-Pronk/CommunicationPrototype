@@ -24,7 +24,7 @@ type
     function Products_list(param: String): TJSONValue;
     function Products_count: TJSONValue;
     function Product_info(productId: UInt64; param: String): TJSONValue;
-    function Product_find(CreateFindProductJson: TJSONObject): TJSONValue;
+    function Product_find(Product: TProduct): TJSONValue;
     function Product_add(NewProductJson: TJSONObject): TJSONValue;
     function Product_update(productId: UInt64; UpdateProductJson: TJSONObject): TJSONValue;
     function product_image_add(productId: UInt64; CreateNewProductImageJson: TJSONObject): TJSONValue;
@@ -156,31 +156,19 @@ begin
   end;
 end;
 
-function ProductsController.Product_find(CreateFindProductJson: TJSONObject): TJSONValue;
+function ProductsController.Product_find(Product: TProduct): TJSONValue;
 var
   ResponseContent: string;
   Params: TStringList;
   URL: string;
   Pair: TJSONPair;
-  Product: TProduct;
 begin
-  Product := TProduct.Create;
-  Product.find_value := '123';
-  Product.find_where := '';
-  Product.find_param := 'whole_words';
-  Product.find_what := 'product';
-  // 20 more variables
-
-
-
-
-
-
   HttpClient := TNetHTTPClient.Create(nil);
   Params := TStringList.Create;
   try
     Params.Add('api_key=' + TIdURI.ParamsEncode(Api2Cart_ApiKey));
     Params.Add('store_key=' + TIdURI.ParamsEncode(Local_AccesToken));
+    //parameters toevoegen uit via een function in de TListCollection unit.
     Params.Add(Product.ProductLoop());
 
 //    for Pair in CreateFindProductJson do
@@ -244,7 +232,7 @@ begin
   HttpClient := TNetHTTPClient.Create(nil);
   Params := TStringList.Create;
   try
-    Params.Add('api_key=' + TIdURI.ParamsEncode(Api2Cart_ApiKey));      //Tlist
+    Params.Add('api_key=' + TIdURI.ParamsEncode(Api2Cart_ApiKey));
     Params.Add('store_key=' + TIdURI.ParamsEncode(Local_AccesToken));
     Params.Add('id=' + UIntToStr(productId));
 

@@ -25,36 +25,52 @@ type
     property find_where: string read Tfind_where write Tfind_where;
     property find_param: string read Tfind_param write Tfind_param;
     property find_what: string read Tfind_what write Tfind_what;
-    procedure ProductLoop();
+    function ProductLoop(): String;
   end;
 
 implementation
 
 { TProduct }
 
-procedure TProduct.ProductLoop();
-var Params: TStringList;
+function TProduct.ProductLoop(): String;
+var
+  Params: TStringList;
+  i: Integer;
 begin
- Params := TStringList.Create;
+  Params := TStringList.Create;
 
   if find_value <> '' then
   begin
-   Params.Add(TIdURI.ParamsEncode(find_value) + '=' +
-   TIdURI.ParamsEncode(find_value));
+    Params.Add(TIdURI.ParamsEncode('find_value') + '=' + TIdURI.ParamsEncode(find_value));
   end;
-  if find_where = '' then
+
+  if find_where <> '' then
   begin
-   //log(1)
+    Params.Add(TIdURI.ParamsEncode('find_where') + '=' + TIdURI.ParamsEncode(find_where));
   end;
-  if find_param = '' then
+
+  if find_param <> '' then
   begin
-   //log(1)
+    Params.Add(TIdURI.ParamsEncode('find_param') + '=' + TIdURI.ParamsEncode(find_param));
   end;
-  if find_what = '' then
+
+  if find_what <> '' then
   begin
-   //log(1)
+    Params.Add(TIdURI.ParamsEncode('find_what') + '=' + TIdURI.ParamsEncode(find_what));
   end;
+
+
+  Result := '';
+  for i := 0 to Params.Count - 1 do
+  begin
+    if i > 0 then
+      Result := Result + '&';
+    Result := Result + Params[i];
+  end;
+
+  Params.Free;
 end;
+
 
 
 end.
