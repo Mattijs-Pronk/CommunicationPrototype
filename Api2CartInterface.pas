@@ -5,7 +5,13 @@ interface
 uses
   //components
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, System.JSON, TListCollection,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, System.JSON,
+
+  //modals
+  FindProductModal, UpdateProductmodal, AddProductModal,
+  AddProductVariantModal, AddProductImageModal, UpdateProductVariantModal,
+  AddProductOptionModal, AddProductAttributeValueModal, FindCategoryModal,
+  AddCategoryModal, UpdateCategoryModal,
 
   //units
   EcomConnect, JsonFiles;
@@ -143,17 +149,25 @@ begin
 end;
 
 procedure TForm2.CategorieAddClick(Sender: TObject);
-begin
-  var
+var
   JsonObject: TJSONValue;
-  begin
+  Category: TCategoryAdd;
+begin
   JsonObject := nil;
-    try
-    JsonObject := _EcomConnectContainer.api2Cart_Categories.Categorie_Add(CreateAddCategoryJson);
+  //TProductFind aanmaken, hiervoor moet wel de juiste unit in "USES" gezet worden.
+  Category := TCategoryAdd.Create;
+  Category.name := 'CategoryViaApi2Cart';
+  Category.description := 'CategoryViaApi2Cart test';
+  Category.meta_title := 'test item';
+  Category.meta_description := 'test item test item';
+  Category.weight := '2';
+  JsonObject := nil;
+
+  try
+    JsonObject := _EcomConnectContainer.api2Cart_Categories.Categorie_Add(Category);
     Memo1.Lines.Text := JsonObject.ToString;
-    finally
+  finally
     JsonObject.Free;
-    end;
   end;
 end;
 
@@ -173,17 +187,23 @@ begin
 end;
 
 procedure TForm2.CategorieFindClick(Sender: TObject);
-begin
-  var
+var
   JsonObject: TJSONValue;
-  begin
+  Category: TCategoryFind;
+begin
   JsonObject := nil;
-    try
-    JsonObject := _EcomConnectContainer.api2Cart_Categories.Categorie_Find(CreateFindCategoryJson);
+  //TProductFind aanmaken, hiervoor moet wel de juiste unit in "USES" gezet worden.
+  Category := TCategoryFind.Create;
+  Category.find_value := 'test';
+  Category.find_where := 'name';
+  Category.find_param := 'whole_words';
+  JsonObject := nil;
+
+  try
+    JsonObject := _EcomConnectContainer.api2Cart_Categories.Categorie_Find(Category);
     Memo1.Lines.Text := JsonObject.ToString;
-    finally
+  finally
     JsonObject.Free;
-    end;
   end;
 end;
 
@@ -218,19 +238,27 @@ begin
 end;
 
 procedure TForm2.CategorieUpdateClick(Sender: TObject);
-begin
-  var
+var
   JsonObject: TJSONValue;
-  begin
+  Category: TCategoryUpdate;
+begin
   JsonObject := nil;
-    try
-    JsonObject := _EcomConnectContainer.api2Cart_Categories.Categorie_Update(StrToInt64(ID1.Text), CreateUpdateCategoryJson);
+  //TProductFind aanmaken, hiervoor moet wel de juiste unit in "USES" gezet worden.
+  Category := TCategoryUpdate.Create;
+  Category.name := 'UpdatedCategoryViaApi2Cart';
+  Category.description := 'UpdatedCategoryViaApi2Cart test';
+  Category.meta_description := 'update test';
+  Category.meta_keywords := 'update test update test';
+  JsonObject := nil;
+
+  try
+    JsonObject := _EcomConnectContainer.api2Cart_Categories.Categorie_Update(StrToInt64(ID1.Text), Category);
     Memo1.Lines.Text := JsonObject.ToString;
-    finally
+  finally
     JsonObject.Free;
-    end;
   end;
 end;
+
 procedure TForm2.GetAllClick(Sender: TObject);
 begin
   var
@@ -247,32 +275,43 @@ begin
 end;
 
 procedure TForm2.ProductAddClick(Sender: TObject);
-begin
-  var
+var
   JsonObject: TJSONValue;
-  begin
+  Product: TProductAdd;
+begin
   JsonObject := nil;
-    try
-    JsonObject := _EcomConnectContainer.api2Cart_Products.Product_add(CreateNewProductJson);
+  //TProductFind aanmaken, hiervoor moet wel de juiste unit in "USES" gezet worden.
+  Product := TProductAdd.Create;
+  Product.name := 'createdProductViaApi2Cart';
+  Product.description := 'createdProductViaApi2Cart';
+  Product.price := '999';
+  Product.quantity := '999';
+
+  try
+    JsonObject := _EcomConnectContainer.api2Cart_Products.Product_add(Product);
     Memo1.Lines.Text := JsonObject.ToString;
-    finally
+  finally
     JsonObject.Free;
-    end;
   end;
 end;
 
 procedure TForm2.ProductAddOptionClick(Sender: TObject);
-begin
-  var
+var
   JsonObject: TJSONValue;
-  begin
+  Product: TProductOptionAdd;
+begin
   JsonObject := nil;
-    try
-    JsonObject := _EcomConnectContainer.api2Cart_Products.Product_Option_Add(StrToInt64(ID1.Text), CreateNewProductOptionAddJson);
+  //TProductFind aanmaken, hiervoor moet wel de juiste unit in "USES" gezet worden.
+  Product := TProductOptionAdd.Create;
+  Product.name := 'Size';
+  Product.default_option_value := 'L';
+  JsonObject := nil;
+
+  try
+    JsonObject := _EcomConnectContainer.api2Cart_Products.Product_Option_Add(StrToInt64(ID1.Text), Product);
     Memo1.Lines.Text := JsonObject.ToString;
-    finally
+  finally
     JsonObject.Free;
-    end;
   end;
 end;
 
@@ -292,17 +331,22 @@ begin
 end;
 
 procedure TForm2.ProductAttributeSetClick(Sender: TObject);
-begin
-  var
+var
   JsonObject: TJSONValue;
-  begin
+  Product: TProductAttributeValueAdd;
+begin
   JsonObject := nil;
-    try
-    JsonObject := _EcomConnectContainer.api2Cart_Products.Product_Attribute_Value_Set(StrToInt64(ID1.Text), CreateNewProductAttributeSetJson);
+  //TProductFind aanmaken, hiervoor moet wel de juiste unit in "USES" gezet worden.
+  Product := TProductAttributeValueAdd.Create;
+  Product.attribute_name := 'Color';
+  Product.value	 := 'Red';
+  JsonObject := nil;
+
+  try
+    JsonObject := _EcomConnectContainer.api2Cart_Products.Product_Attribute_Value_Set(StrToInt64(ID1.Text), Product);
     Memo1.Lines.Text := JsonObject.ToString;
-    finally
+  finally
     JsonObject.Free;
-    end;
   end;
 end;
 
@@ -352,17 +396,22 @@ begin
 end;
 
 procedure TForm2.ProductImageAddClick(Sender: TObject);
-begin
-  var
+var
   JsonObject: TJSONValue;
-  begin
+  Product: TProductAddImage;
+begin
   JsonObject := nil;
-    try
-    JsonObject := _EcomConnectContainer.api2Cart_Products.product_image_add(StrToInt64(ID1.Text), CreateNewProductImageJson);
+  //TProductAddImage aanmaken, hiervoor moet wel de juiste unit in "USES" gezet worden.
+  Product := TProductAddImage.Create;
+  Product.image_name := 'ImageViaApi2Cart.png';
+  Product.url := 'https://www.google.com/images/srpr/logo1w.png';
+  Product._type := 'additional';
+
+  try
+    JsonObject := _EcomConnectContainer.api2Cart_Products.product_image_add(StrToInt64(ID1.Text), Product);
     Memo1.Lines.Text := JsonObject.ToString;
-    finally
+  finally
     JsonObject.Free;
-    end;
   end;
 end;
 
@@ -414,13 +463,14 @@ end;
 procedure TForm2.ProductsFindClick(Sender: TObject);
 var
   JsonObject: TJSONValue;
-  Product: TProduct;
+  Product: TProductFind;
 begin
   JsonObject := nil;
-  Product := TProduct.Create;
+  //TProductFind aanmaken, hiervoor moet wel de juiste unit in "USES" gezet worden.
+  Product := TProductFind.Create;
   Product.find_value := 'testProductApi2Cart';
   Product.find_where := 'name';
-  Product.find_param := 'whole_words'; //testitemV2: 123.pro  .
+  Product.find_param := 'whole_words';
   Product.find_what := 'product';
 
   try
@@ -447,32 +497,48 @@ begin
 end;
 
 procedure TForm2.ProductUpdateClick(Sender: TObject);
-begin
-  var
+var
   JsonObject: TJSONValue;
-  begin
+  Product: TProductUpdate;
+begin
   JsonObject := nil;
-    try
-    JsonObject := _EcomConnectContainer.api2Cart_Products.Product_update(StrToInt64(ID1.Text), CreateUpdateProductJson);
+  //TProductUpdate aanmaken, hiervoor moet wel de juiste unit in "USES" gezet worden.
+  Product := TProductUpdate.Create;
+  Product.name := 'updatedProductViaApi2Cart';
+  Product.description := 'updateProductViaApi2Cart';
+  Product.price := '1';
+  Product.quantity := '1';
+  try
+    JsonObject := _EcomConnectContainer.api2Cart_Products.Product_update(StrToInt64(ID1.Text), Product);
     Memo1.Lines.Text := JsonObject.ToString;
-    finally
+  finally
     JsonObject.Free;
-    end;
   end;
 end;
 
 procedure TForm2.ProductVariantAddClick(Sender: TObject);
-begin
-  var
+var
   JsonObject: TJSONValue;
-  begin
+  Product: TProductAddVariant;
+begin
   JsonObject := nil;
-    try
-    JsonObject := _EcomConnectContainer.api2Cart_Products.Product_variant_Add(StrToInt64(ID1.Text), CreateNewProductVariantAddJson);
+  //TProductUpdate aanmaken, hiervoor moet wel de juiste unit in "USES" gezet worden.
+  Product := TProductAddVariant.Create;
+  Product.model := 'AddVariantViaApi2Cart';
+  Product.TattributeFirst := 'Size';
+  Product.TattributeSecond := 'L';
+  Product.TattributeKey := '999';
+  Product.price	 := '666';
+  Product.quantity := '666';
+  Product.weight := '0.5';
+
+  JsonObject := nil;
+  try
+    JsonObject := _EcomConnectContainer.api2Cart_Products.Product_variant_Add(StrToInt64(ID1.Text), Product);
     Memo1.Lines.Text := JsonObject.ToString;
-    finally
+  finally
     JsonObject.Free;
-    end;
+    Product.Free;
   end;
 end;
 
@@ -537,17 +603,23 @@ begin
 end;
 
 procedure TForm2.ProductVariantUpdateClick(Sender: TObject);
-begin
-  var
+var
   JsonObject: TJSONValue;
-  begin
+  Product: TProductVariantUpdate;
+begin
   JsonObject := nil;
-    try
-    JsonObject := _EcomConnectContainer.api2Cart_Products.Product_variant_Update(StrToInt64(ID1.Text), CreateNewProductVariantUpdateJson);
+  //TProductUpdate aanmaken, hiervoor moet wel de juiste unit in "USES" gezet worden.
+  Product := TProductVariantUpdate.Create;
+  Product.sku := 'SKU1111';
+  Product.price := '1';
+  Product.quantity := '1';
+
+  JsonObject := nil;
+  try
+    JsonObject := _EcomConnectContainer.api2Cart_Products.Product_variant_Update(StrToInt64(ID1.Text), Product);
     Memo1.Lines.Text := JsonObject.ToString;
-    finally
+  finally
     JsonObject.Free;
-    end;
   end;
 end;
 

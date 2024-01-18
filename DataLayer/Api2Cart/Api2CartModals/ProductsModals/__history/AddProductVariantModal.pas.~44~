@@ -1,0 +1,82 @@
+unit AddProductVariantModal;
+
+interface
+
+uses System.SysUtils, System.Classes, System.StrUtils, IdURI, System.Rtti, System.Variants, TypInfo, System.Generics.Collections;
+
+type
+  TProductAddVariant = class
+    private
+      Tmodel, Tprice, Tspecial_price, Tsprice_create,
+      Tsprice_expire, Tavailable_for_view, Tweight, Twidth, Theight, Tlength,
+      Tquantity, Tcreated_at, Tmanage_stock, Twarehouse_id, Tean, Tcost_price,
+      Tweight_unit, Tmeta_title, Tbarcode, Ttaxable, Tharmonized_system_code,
+      Tcountry_of_origin: String;
+
+      TattributeFirst, TattributeSecond, TattributeKey: String;
+    public
+      property model: string read Tmodel write Tmodel;
+      property price: string read Tprice write Tprice;
+      property special_price: string read Tspecial_price write Tspecial_price;
+      property sprice_create: string read Tsprice_create write Tsprice_create;
+      property sprice_expire: string read Tsprice_expire write Tsprice_expire;
+      property available_for_view: string read Tavailable_for_view write Tavailable_for_view;
+      property weight: string read Tweight write Tweight;
+      property width: string read Twidth write Twidth;
+      property height: string read Theight write Theight;
+      property length: string read Tlength write Tlength;
+      property quantity: string read Tquantity write Tquantity;
+      property created_at: string read Tcreated_at write Tcreated_at;
+      property manage_stock: string read Tmanage_stock write Tmanage_stock;
+      property warehouse_id: string read Twarehouse_id write Twarehouse_id;
+      property ean: string read Tean write Tean;
+      property cost_price: string read Tcost_price write Tcost_price;
+      property weight_unit: string read Tweight_unit write Tweight_unit;
+      property meta_title: string read Tmeta_title write Tmeta_title;
+      property barcode: string read Tbarcode write Tbarcode;
+      property taxable: string read Ttaxable write Ttaxable;
+      property harmonized_system_code: string read Tharmonized_system_code write Tharmonized_system_code;
+      property country_of_origin: string read Tcountry_of_origin write Tcountry_of_origin;
+
+      function CreateObject: String;
+  end;
+
+implementation
+
+
+
+
+function TProductAddVariant.CreateObject: String;
+var
+  Params: TStringList;
+  Context: TRttiContext;
+  Prop: TRttiProperty;
+  PropValue: TValue;
+begin
+  Params := TStringList.Create;
+  try
+    Params.Delimiter := '&';
+
+    Context := TRttiContext.Create;
+    try
+      for Prop in Context.GetType(Self.ClassInfo).GetProperties do
+      begin
+        if Prop.IsReadable then
+        begin
+          PropValue := Prop.GetValue(Self);
+          if not PropValue.IsEmpty and (PropValue.AsType<string> <> '') then
+            Params.Add(TIdURI.ParamsEncode(Prop.Name) + '=' + TIdURI.ParamsEncode(PropValue.ToString));
+        end;
+      end;
+    finally
+      Params.Add('attributes'+'['+TattributeFirst+']'+'['+TattributeSecond+']'+'='+TattributeKey)
+      Context.Free;
+    end;
+
+    Result := Params.DelimitedText;
+  finally
+    Params.Free;
+  end;
+end;
+
+end.

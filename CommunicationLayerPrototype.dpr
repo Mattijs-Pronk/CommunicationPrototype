@@ -19,7 +19,17 @@ uses
   Api2CartInterface in 'Api2CartInterface.pas' {Form2},
   Api2Cart.Products in 'DataLayer\Api2Cart\Api2CartControllers\Api2Cart.Products.pas',
   Api2Cart.Categories in 'DataLayer\Api2Cart\Api2CartControllers\Api2Cart.Categories.pas',
-  TlistCollection in 'DataLayer\Api2Cart\TlistCollection.pas';
+  FindProductModal in 'DataLayer\Api2Cart\Api2CartModals\ProductsModals\FindProductModal.pas',
+  AddProductModal in 'DataLayer\Api2Cart\Api2CartModals\ProductsModals\AddProductModal.pas',
+  UpdateProductModal in 'DataLayer\Api2Cart\Api2CartModals\ProductsModals\UpdateProductModal.pas',
+  AddProductImageModal in 'DataLayer\Api2Cart\Api2CartModals\ProductsModals\AddProductImageModal.pas',
+  AddProductVariantModal in 'DataLayer\Api2Cart\Api2CartModals\ProductsModals\AddProductVariantModal.pas',
+  UpdateProductVariantModal in 'DataLayer\Api2Cart\Api2CartModals\ProductsModals\UpdateProductVariantModal.pas',
+  AddProductOptionModal in 'DataLayer\Api2Cart\Api2CartModals\ProductsModals\AddProductOptionModal.pas',
+  AddProductAttributeValueModal in 'DataLayer\Api2Cart\Api2CartModals\ProductsModals\AddProductAttributeValueModal.pas',
+  FindCategoryModal in 'DataLayer\Api2Cart\Api2CartModals\CategoriesModals\FindCategoryModal.pas',
+  AddCategoryModal in 'DataLayer\Api2Cart\Api2CartModals\CategoriesModals\AddCategoryModal.pas',
+  UpdateCategoryModal in 'DataLayer\Api2Cart\Api2CartModals\CategoriesModals\UpdateCategoryModal.pas';
 
 {$R *.res}
 

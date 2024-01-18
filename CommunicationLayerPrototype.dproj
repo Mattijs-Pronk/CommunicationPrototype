@@ -144,7 +144,17 @@
         </DCCReference>
         <DCCReference Include="DataLayer\Api2Cart\Api2CartControllers\Api2Cart.Products.pas"/>
         <DCCReference Include="DataLayer\Api2Cart\Api2CartControllers\Api2Cart.Categories.pas"/>
-        <DCCReference Include="DataLayer\Api2Cart\TlistCollection.pas"/>
+        <DCCReference Include="DataLayer\Api2Cart\Api2CartModals\ProductsModals\FindProductModal.pas"/>
+        <DCCReference Include="DataLayer\Api2Cart\Api2CartModals\ProductsModals\AddProductModal.pas"/>
+        <DCCReference Include="DataLayer\Api2Cart\Api2CartModals\ProductsModals\UpdateProductModal.pas"/>
+        <DCCReference Include="DataLayer\Api2Cart\Api2CartModals\ProductsModals\AddProductImageModal.pas"/>
+        <DCCReference Include="DataLayer\Api2Cart\Api2CartModals\ProductsModals\AddProductVariantModal.pas"/>
+        <DCCReference Include="DataLayer\Api2Cart\Api2CartModals\ProductsModals\UpdateProductVariantModal.pas"/>
+        <DCCReference Include="DataLayer\Api2Cart\Api2CartModals\ProductsModals\AddProductOptionModal.pas"/>
+        <DCCReference Include="DataLayer\Api2Cart\Api2CartModals\ProductsModals\AddProductAttributeValueModal.pas"/>
+        <DCCReference Include="DataLayer\Api2Cart\Api2CartModals\CategoriesModals\FindCategoryModal.pas"/>
+        <DCCReference Include="DataLayer\Api2Cart\Api2CartModals\CategoriesModals\AddCategoryModal.pas"/>
+        <DCCReference Include="DataLayer\Api2Cart\Api2CartModals\CategoriesModals\UpdateCategoryModal.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

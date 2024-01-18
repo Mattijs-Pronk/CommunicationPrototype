@@ -1,0 +1,67 @@
+unit UpdateCategoryModal;
+
+interface
+
+uses System.SysUtils, System.Classes, System.StrUtils, IdURI, System.Rtti, System.Variants, TypInfo;
+
+type
+  TCategoryUpdate = class
+    private
+    Tname: string;
+    Tdescription: string;
+    Tparent_id: string;
+    Tstores_ids: string;
+    Tstore_id: string;
+    Tlang_id: string;
+    Tavail: string;
+    Tmeta_description: string;
+    Tmeta_keywords: string;
+  public
+    property name: string read Tname write Tname;
+    property description: string read Tdescription write Tdescription;
+    property parent_id: string read Tparent_id write Tparent_id;
+    property stores_ids: string read Tstores_ids write Tstores_ids;
+    property store_id: string read Tstore_id write Tstore_id;
+    property lang_id: string read Tlang_id write Tlang_id;
+    property avail: string read Tavail write Tavail;
+    property meta_description: string read Tmeta_description write Tmeta_description;
+    property meta_keywords: string read Tmeta_keywords write Tmeta_keywords;
+
+    function CreateObject(): String;
+end;
+
+implementation
+
+function TCategoryUpdate.CreateObject: String;
+var
+  Params: TStringList;
+  Context: TRttiContext;
+  Prop: TRttiProperty;
+  PropValue: TValue;
+begin
+  Params := TStringList.Create;
+  try
+    Params.Delimiter := '&';
+
+    Context := TRttiContext.Create;
+    try
+      for Prop in Context.GetType(Self.ClassInfo).GetProperties do
+      begin
+        if Prop.IsReadable then
+        begin
+          PropValue := Prop.GetValue(Self);
+          if not PropValue.IsEmpty and (PropValue.AsType<string> <> '') then
+            Params.Add(TIdURI.ParamsEncode(Prop.Name) + '=' + TIdURI.ParamsEncode(PropValue.ToString));
+        end;
+      end;
+    finally
+      Context.Free;
+    end;
+
+    Result := Params.DelimitedText;
+  finally
+    Params.Free;
+  end;
+end;
+
+end.

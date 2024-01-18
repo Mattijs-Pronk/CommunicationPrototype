@@ -1,0 +1,59 @@
+unit AddProductAttributeValueModal;
+
+interface
+
+uses System.SysUtils, System.Classes, System.StrUtils, IdURI, System.Rtti, System.Variants, TypInfo;
+
+type
+  TProductAttributeValueAdd = class
+  private
+    Tattribute_name, Tvalue, Tvalue_id, Tlang_id, Tstore_id,
+    Tattribute_group_id: String
+  public
+    property attribute_name: string read Tattribute_name write Tattribute_name;
+    property value: string read Tvalue write Tvalue;
+    property value_id: string read Tvalue_id write Tvalue_id;
+    property lang_id: string read Tlang_id write Tlang_id;
+    property store_id: string read Tstore_id write Tstore_id;
+    property attribute_group_id: string read Tattribute_group_id write Tattribute_group_id;
+
+    function CreateObject(): String;
+  end;
+
+implementation
+
+{ TProduct }
+
+function TProductOptionAdd.CreateObject: String;
+var
+  Params: TStringList;
+  Context: TRttiContext;
+  Prop: TRttiProperty;
+  PropValue: TValue;
+begin
+  Params := TStringList.Create;
+  try
+    Params.Delimiter := '&';
+
+    Context := TRttiContext.Create;
+    try
+      for Prop in Context.GetType(Self.ClassInfo).GetProperties do
+      begin
+        if Prop.IsReadable then
+        begin
+          PropValue := Prop.GetValue(Self);
+          if not PropValue.IsEmpty and (PropValue.AsType<string> <> '') then
+            Params.Add(TIdURI.ParamsEncode(Prop.Name) + '=' + TIdURI.ParamsEncode(PropValue.ToString));
+        end;
+      end;
+    finally
+      Context.Free;
+    end;
+
+    Result := Params.DelimitedText;
+  finally
+    Params.Free;
+  end;
+end;
+
+end.
