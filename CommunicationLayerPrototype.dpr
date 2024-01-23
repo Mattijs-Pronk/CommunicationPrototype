@@ -29,7 +29,8 @@ uses
   AddProductAttributeValueModal in 'DataLayer\Api2Cart\Api2CartModals\ProductsModals\AddProductAttributeValueModal.pas',
   FindCategoryModal in 'DataLayer\Api2Cart\Api2CartModals\CategoriesModals\FindCategoryModal.pas',
   AddCategoryModal in 'DataLayer\Api2Cart\Api2CartModals\CategoriesModals\AddCategoryModal.pas',
-  UpdateCategoryModal in 'DataLayer\Api2Cart\Api2CartModals\CategoriesModals\UpdateCategoryModal.pas';
+  UpdateCategoryModal in 'DataLayer\Api2Cart\Api2CartModals\CategoriesModals\UpdateCategoryModal.pas',
+  ProductReturnModal in 'DataLayer\Api2Cart\Api2CartModals\ProductsModals\ProductReturnModal.pas';
 
 {$R *.res}
 

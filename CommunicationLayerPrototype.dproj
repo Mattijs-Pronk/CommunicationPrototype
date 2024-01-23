@@ -155,6 +155,7 @@
         <DCCReference Include="DataLayer\Api2Cart\Api2CartModals\CategoriesModals\FindCategoryModal.pas"/>
         <DCCReference Include="DataLayer\Api2Cart\Api2CartModals\CategoriesModals\AddCategoryModal.pas"/>
         <DCCReference Include="DataLayer\Api2Cart\Api2CartModals\CategoriesModals\UpdateCategoryModal.pas"/>
+        <DCCReference Include="DataLayer\Api2Cart\Api2CartModals\ProductsModals\ProductReturnModal.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

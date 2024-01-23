@@ -25,7 +25,7 @@ type
     function Category_List(param: String): TJSONValue;
     function Category_Count(): TJSONValue;
     function Categorie_Info(categoryId: UInt64; param: String): TJSONValue;
-    function Categorie_Find(Category: TCategoryFind) : TJSONValue;
+    function Categorie_Find(Category: TCategoryFind): TJSONValue;
     function Categorie_Add(Category: TCategoryAdd): TJSONValue;
     function Categorie_Update(categoryId: UInt64; Category: TCategoryUpdate): TJSONValue;
   end;
@@ -148,14 +148,14 @@ var
   ResponseContent: string;
   Params: TStringList;
   URL: string;
-  Pair: TJSONPair;
+  HttpClient: TNetHTTPClient;
+  Category1: TCategoryFind;
 begin
   HttpClient := TNetHTTPClient.Create(nil);
   Params := TStringList.Create;
   try
     Params.Add('api_key=' + TIdURI.ParamsEncode(Api2Cart_ApiKey));
     Params.Add('store_key=' + TIdURI.ParamsEncode(Local_AccesToken));
-    //parameters toevoegen uit via een function in de TListCollection unit.
     Params.Add(Category.CreateObject());
 
     URL := Api2Cart_BaseURL + 'category.find.json?' + StringReplace(Params.Text, #$D#$A, '&', [rfReplaceAll]);

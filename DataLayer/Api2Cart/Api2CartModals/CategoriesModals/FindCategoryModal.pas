@@ -2,7 +2,8 @@ unit FindCategoryModal;
 
 interface
 
-uses System.SysUtils, System.Classes, System.StrUtils, IdURI, System.Rtti, System.Variants, TypInfo;
+uses System.SysUtils, System.Classes, System.StrUtils, IdURI, System.Rtti,
+    System.Variants, TypInfo, System.JSON, Vcl.Dialogs;
 
 type
   TCategoryFind = class
@@ -18,8 +19,6 @@ type
   end;
 
 implementation
-
-{ TProduct }
 
 function TCategoryFind.CreateObject: String;
 var

@@ -4,13 +4,13 @@ interface
 
 uses
    //components
-  System.JSON, System.Net.HttpClient, System.Net.HttpClientComponent, System.Classes, System.SysUtils, IdURI, Vcl.Dialogs,
+  System.JSON, System.Net.HttpClient, System.Net.HttpClientComponent, System.Classes, System.SysUtils, IdURI, Vcl.Dialogs, Generics.Collections,
   //units
   Api2Cart.InterfaceCollection, ConfigurationManager, ErrorHandler,
   //modals
   FindProductModal, UpdateProductModal, AddProductModal,
   AddProductImageModal, AddProductVariantModal, UpdateProductVariantModal,
-  AddProductOptionModal, AddProductAttributeValueModal;
+  AddProductOptionModal, AddProductAttributeValueModal, ProductReturnModal;
 
 type
 
@@ -25,7 +25,7 @@ type
     destructor Destroy; override;
 
 
-    function Products_list(param: String): TJSONValue;
+    function Products_list(param: String): TObjectList<TProductList>;
     function Products_count: TJSONValue;
     function Product_info(productId: UInt64; param: String): TJSONValue;
     function Product_find(Product: TProductFind): TJSONValue;
@@ -67,11 +67,12 @@ end;
 
 
 
-function ProductsController.Products_list(param: String): TJSONValue;
+function ProductsController.Products_list(param: String): TObjectList<TProductList>;
 var
   ResponseContent: string;
   Params: TStringList;
   URL: string;
+  ProductFinder: TProductList;
 begin
   HttpClient := TNetHTTPClient.Create(nil);
   Params := TStringList.Create;
@@ -93,9 +94,9 @@ begin
 
     ResponseContent := HttpClient.Get(URL).ContentAsString;
 
-    //Result := IErrorHandler.ErrorHandlerApi2Cart(ResponseContent);
-
-    Result := ParseApiResponse(IErrorHandler.ErrorHandlerApi2Cart(ResponseContent));
+//    Result := IErrorHandler.ErrorHandlerApi2Cart(ResponseContent);
+//    Result := ReturnObject(IErrorHandler.ErrorHandlerApi2Cart(ResponseContent));
+      Result := ProductFinder.ReturnObject(ResponseContent);
 
   finally
     HttpClient.Free;

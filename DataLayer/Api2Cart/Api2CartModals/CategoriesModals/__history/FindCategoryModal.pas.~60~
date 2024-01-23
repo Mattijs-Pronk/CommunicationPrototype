@@ -1,0 +1,95 @@
+unit FindCategoryModal;
+
+interface
+
+uses System.SysUtils, System.Classes, System.StrUtils, IdURI, System.Rtti,
+    System.Variants, TypInfo, System.JSON, Vcl.Dialogs;
+
+type
+  TCategoryFind = class
+  private
+    Tfind_value, Tfind_where, Tfind_param, Tstore_id: string;
+  public
+    property find_value: string read Tfind_value write Tfind_value;
+    property find_where: string read Tfind_where write Tfind_where;
+    property find_param: string read Tfind_param write Tfind_param;
+    property store_id: string read Tstore_id write Tstore_id;
+
+    function ReturnObject(returnValue: String): TJSONValue;
+    function CreateObject(): String;
+  end;
+
+implementation
+
+{ TProduct }
+
+function TCategoryFind.ReturnObject(returnValue: string): TJSONValue;
+var
+  jsonObject, localObject: TJSONObject;
+begin
+  jsonObject := TJSONObject.ParseJSONValue(returnValue) as TJSONObject;
+  Result := nil;
+
+  try
+    if Assigned(jsonObject) then
+    begin
+      try
+        // Retrieve the 'id' and 'name' values and put them in a new TJSONObject
+        localObject := TJSONObject.Create;
+        localObject.AddPair('id', jsonObject.GetValue('id'));
+        localObject.AddPair('name', jsonObject.GetValue('name'));
+        Result := localObject;
+      except
+        on E: Exception do
+        begin
+          // Handle any errors when retrieving the values
+          FreeAndNil(Result);
+        end;
+      end;
+    end
+    else
+    begin
+      // If the JSON string is invalid, return an empty TJSONObject
+      Result := TJSONObject.Create;
+    end;
+  finally
+    // Make sure to free the TJSONObject if necessary
+    jsonObject.Free;
+  end;
+end;
+
+
+
+function TCategoryFind.CreateObject: String;
+var
+  Params: TStringList;
+  Context: TRttiContext;
+  Prop: TRttiProperty;
+  PropValue: TValue;
+begin
+  Params := TStringList.Create;
+  try
+    Params.Delimiter := '&';
+
+    Context := TRttiContext.Create;
+    try
+      for Prop in Context.GetType(Self.ClassInfo).GetProperties do
+      begin
+        if Prop.IsReadable then
+        begin
+          PropValue := Prop.GetValue(Self);
+          if not PropValue.IsEmpty and (PropValue.AsType<string> <> '') then
+            Params.Add(TIdURI.ParamsEncode(Prop.Name) + '=' + TIdURI.ParamsEncode(PropValue.ToString));
+        end;
+      end;
+    finally
+      Context.Free;
+    end;
+
+    Result := Params.DelimitedText;
+  finally
+    Params.Free;
+  end;
+end;
+
+end.

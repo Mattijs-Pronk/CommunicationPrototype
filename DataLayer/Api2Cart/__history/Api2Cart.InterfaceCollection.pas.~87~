@@ -1,0 +1,62 @@
+unit Api2Cart.InterfaceCollection;
+
+interface
+
+uses
+  System.JSON, FindProductModal, UpdateProductModal, AddProductModal,
+  AddProductImageModal, AddProductVariantModal, UpdateProductVariantModal,
+  AddProductOptionModal, AddProductAttributeValueModal, FindCategoryModal,
+  AddCategoryModal, UpdateCategoryModal;
+
+type
+  {$M+}
+
+  //categorie interface
+  IMyCategories = interface
+    function Category_List(param: String): TJSONValue;
+    function Category_Count(): TJSONValue;
+    function Categorie_Info(categoryId: UInt64; param: String): TJSONValue;
+    function Categorie_Find(Category: TCategoryFind): TJSONValue;
+    function Categorie_Add(Category: TCategoryAdd): TJSONValue;
+    function Categorie_Update(categoryId: UInt64; Category: TCategoryUpdate): TJSONValue;
+  end;
+
+  //customer interface
+  IMyCustomers = interface
+
+  end;
+
+  //order interface
+  IMyOrders = interface
+
+  end;
+
+  //products interface
+  IMyProducts = interface
+    function Products_list(param: String): String;
+    function Products_count: TJSONValue;
+    function Product_info(productId: UInt64; param: String): TJSONValue;
+    function Product_find(Product: TProductFind): TJSONValue;
+    function Product_add(Product: TProductAdd): TJSONValue;
+    function Product_update(productId: UInt64; Product: TProductUpdate): TJSONValue;
+    function product_image_add(productId: UInt64; Product: TProductAddImage): TJSONValue;
+    function Product_Attribute_list(productId: UInt64; param: String): TJSONValue;
+    function Product_variant_Add(productId: UInt64; Product: TProductAddVariant): TJSONValue;
+    function Product_ChildItem_List(productId: UInt64; param: String): TJSONValue;
+    function Product_Variant_List(param: String): TJSONValue;
+    function Product_Variant_Info(variantId: UInt64; param: String): TJSONValue;
+    function Product_variant_Count(productId: UInt64): TJSONValue;
+    function Product_variant_Update(variantId: UInt64; Product: TProductVariantUpdate): TJSONValue;
+    function Product_Currency_List(param: String): TJSONValue;
+    function Product_Delete(productId: UInt64): TJSONValue;
+    function Product_Image_Delete(productId, imageId: UInt64): TJSONValue;
+    function Product_Option_Add(productId: UInt64; Product: TProductOptionAdd): TJSONValue;
+    function Product_Variant_Delete(productId, variantId: UInt64): TJSONValue;
+    function Product_Attribute_Value_Set(productId: UInt64; Product: TProductAttributeValueAdd): TJSONValue;
+    function Product_Image_Update(productId: UInt64; imageId: String):TJSONValue;
+  end;
+
+
+implementation
+
+end.

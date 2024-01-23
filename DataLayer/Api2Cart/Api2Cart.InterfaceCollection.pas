@@ -3,10 +3,13 @@ unit Api2Cart.InterfaceCollection;
 interface
 
 uses
+  Generics.Collections,
+
+  //modals
   System.JSON, FindProductModal, UpdateProductModal, AddProductModal,
   AddProductImageModal, AddProductVariantModal, UpdateProductVariantModal,
   AddProductOptionModal, AddProductAttributeValueModal, FindCategoryModal,
-  AddCategoryModal, UpdateCategoryModal;
+  AddCategoryModal, UpdateCategoryModal, ProductReturnModal;
 
 type
   {$M+}
@@ -16,7 +19,7 @@ type
     function Category_List(param: String): TJSONValue;
     function Category_Count(): TJSONValue;
     function Categorie_Info(categoryId: UInt64; param: String): TJSONValue;
-    function Categorie_Find(Category: TCategoryFind) : TJSONValue;
+    function Categorie_Find(Category: TCategoryFind): TJSONValue;
     function Categorie_Add(Category: TCategoryAdd): TJSONValue;
     function Categorie_Update(categoryId: UInt64; Category: TCategoryUpdate): TJSONValue;
   end;
@@ -33,7 +36,7 @@ type
 
   //products interface
   IMyProducts = interface
-    function Products_list(param: String): TJSONValue;
+    function Products_list(param: String): TObjectList<TProductList>;
     function Products_count: TJSONValue;
     function Product_info(productId: UInt64; param: String): TJSONValue;
     function Product_find(Product: TProductFind): TJSONValue;

@@ -2,7 +2,7 @@ unit FindProductModal;
 
 interface
 
-uses System.SysUtils, System.Classes, System.StrUtils, IdURI, System.Rtti, System.Variants, TypInfo;
+uses System.SysUtils, System.Classes, System.StrUtils, IdURI, System.Rtti, System.Variants, TypInfo, System.JSON, vcl.Dialogs,  Generics.Collections;
 
 type
   TProductFind = class
